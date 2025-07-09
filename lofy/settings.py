@@ -70,7 +70,7 @@ TEMPLATES = [
 WSGI_APPLICATION = 'lofy.wsgi.application'
 
 #USER MODEL
-AUTH_USER_MODEL='main.User'
+AUTH_USER_MODEL='authentication.User'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
