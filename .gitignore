@@ -1,4 +1,4 @@
 lofy/__pycache__
 db.sqlite3
-authentication/migrations
-authentication/__pycache__
+accounts/migrations
+accounts/__pycache__
