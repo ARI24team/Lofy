@@ -12,4 +12,5 @@ class Signup(CreateView):
         user=form.save()
         user.set_password(password)
         return super().form_valid(form)
-# Create your views here.
+
+
