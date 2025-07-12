@@ -18,7 +18,7 @@ class Signup(CreateView):
         return super().form_valid(form)
     def get(self, request, *args, **kwargs):
         if request.user.is_authenticated:
-           return redirect('/')
+            return redirect('/')
         return super().get(request, *args, **kwargs)
 
 
