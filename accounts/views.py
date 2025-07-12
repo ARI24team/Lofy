@@ -21,3 +21,5 @@ class Signup(CreateView):
 class Login(LoginView):
     template_name = 'accounts/login.html'
     redirect_authenticated_user = True
+    authentication_form = forms.Userloginform
+    success_url = '/'
