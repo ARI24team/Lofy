@@ -1,17 +1,25 @@
 from django import forms
 from .models import User
-from django.contrib.auth.forms import UserCreationForm,AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+
+
 class Usersignupform(UserCreationForm):
     class Meta:
         model = User
-        fields = ['username', 'email', 'Phone_Number','password1','password2']
+        fields = [
+            'username',
+            'email', 
+            'Phone_Number', 
+            'password1', 
+            'password2'
+            ]
+
     def __init__(self, *args, **kwargs):
-        super(Usersignupform,self).__init__(*args, **kwargs)
+        super(Usersignupform, self).__init__(*args, **kwargs)
         self.fields['username'].widget.attrs.update({
             'placeholder': 'Enter Username',
             'class': 'form-control'
         })
-        super(Usersignupform,self).__init__(*args, **kwargs)
         self.fields['Phone_Number'].widget.attrs.update({
             'placeholder': 'Phone Number',
             'class': 'form-control',
@@ -25,7 +33,7 @@ class Usersignupform(UserCreationForm):
             'class': 'form-control'
         })
         self.fields['password2'].widget.attrs.update({
-            'placeholder': 'Confierm your password',
+            'placeholder': 'Confirm your password',
             'class': 'form-control'
         })
 
@@ -41,6 +49,3 @@ class Userloginform(AuthenticationForm):
             'placeholder': 'Password',
             'class': 'form-control'
         })
-
-    
-    
