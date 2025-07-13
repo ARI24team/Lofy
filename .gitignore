@@ -2,3 +2,4 @@ lofy/__pycache__
 db.sqlite3
 accounts/migrations
 accounts/__pycache__
+.env
