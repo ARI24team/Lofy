@@ -45,10 +45,3 @@ class Login(LoginView):
 
     #     send_mail(subject, message, from_email, recipient_list, fail_silently=True)
     #     return super().form_valid(form)
-
-
-def homeview(request):
-    if request.user.is_authenticated:
-        print(f"Logged-in user: {request.user.username}")
-        return HttpResponse(f"Welcome back, {request.user.username}!")
-    return HttpResponse("You're not logged in.")
