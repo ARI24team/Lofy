@@ -1,4 +1,6 @@
 from django.contrib.auth.views import LoginView, LogoutView
+from django.contrib.auth.views import PasswordResetConfirmView,PasswordResetCompleteView,PasswordResetDoneView,PasswordResetView,PasswordChangeView
+from django.contrib.auth.forms import PasswordChangeForm,PasswordResetForm
 from django.contrib.auth import login
 from django.shortcuts import redirect
 from django.views.generic.edit import FormView
@@ -45,3 +47,24 @@ class Login(LoginView):
 
     #     send_mail(subject, message, from_email, recipient_list, fail_silently=True)
     #     return super().form_valid(form)
+class PasswordChange(PasswordChangeView):
+    form_class=PasswordChangeForm
+    template_name='accounts/password_change.html'
+    success_url = reverse_lazy('accounts:home')
+
+class PasswordReset(PasswordResetView):
+    form_class=PasswordResetForm
+    template_name='accounts/password_reset.html'
+    from_email=EMAIL_HOST_USER
+    success_url=reverse_lazy('accounts:password_reset_done')
+    html_email_template_name='accounts/password_reset_email.html'
+
+class PasswordResetDone(PasswordResetDoneView):
+    template_name='accounts/password_reset_done.html'
+
+class PasswordResetConfirm(PasswordResetConfirmView):
+    template_name = 'accounts/password_reset_confirm.html'
+    success_url = reverse_lazy('accounts:password_reset_complete')
+
+class PasswordResetComplete(PasswordResetCompleteView):
+    template_name='accounts/password_reset_complete.html'    
