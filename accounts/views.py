@@ -16,7 +16,7 @@ class Signup(FormView):
     model = User
     form_class = forms.Usersignupform
     template_name = 'accounts/signup.html'
-    success_url = reverse_lazy('accounts:home')
+    success_url = reverse_lazy('home')
 
     def form_valid(self, form):
         user = form.save()

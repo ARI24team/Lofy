@@ -1,19 +1,69 @@
+{% load static %}
 <!DOCTYPE html>
+
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>Lofy</title>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <link rel="stylesheet" href="{% static 'accounts/style.css' %}" />
   </head>
   <body>
-    <form method="post" action="{% url 'accounts:login' %}">
-      {% csrf_token %} 
-      {{form}}
-      <button type="submit">submit</button>
-    </form>
-    <h2>Theird party login</h2>
-    <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}">Login with Google</a><br>
-    <a href="{% url 'social:begin' 'github' %}?next={{ request.path }}">Login with github</a><br>
-    <a href="{% url 'social:begin' 'apple-id' %}?next={{ request.path }}">Login with apple id</a><br>
+    <div class="theme-toggle">
+      <label class="switch">
+        <input type="checkbox" id="themeToggle" />
+        <span class="slider">
+          <i class="fas fa-moon"></i>
+          <i class="fas fa-sun"></i>
+        </span>
+      </label>
+    </div>
+    <section>
+      <div class="head">
+        <img src="../media/photo_2025-02-02_21-06-56.jpg" alt="" />
+        <h1>Lofy</h1>
+        <p>Log in to your universe</p>
+      </div>
+      <div class="main">
+        <form method="post" action="{% url 'accounts:login' %}">
+          {% csrf_token %}
+          {{ form }}
+          <div class="remember">
+            <div class="check">
+              <input type="checkbox" name="remember" id="remember" />
+              <label for="remember">Remember me ?</label>
+            </div>
+            <span id="pwd"><a href="{% url "accounts:reset_password" %}">Forgot Password ?</a></span>
+          </div>
+          <div class="btn">
+            <button type="submit">Log in</button>
+          </div>
+        </form>
+        <p>or continue with</p>
+        <div class="socials">
+          <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}" title="Continue with Google">
+            <i class="fab fa-google"></i>
+          </a>
+          <a href="{% url 'social:begin' 'github' %}?next={{ request.path }}" title="Continue with GitHub">
+            <i class="fab fa-github"></i>
+          </a>
+          <a href="{% url 'social:begin' 'apple-id' %}?next={{ request.path }}" title="Continue with Apple">
+            <i class="fab fa-apple"></i>
+          </a>
+        </div>
+      </div>
+      <div class="foot">
+        <p>Don't have an account? <a href="{% url "accounts:signup" %}">Create an account</a></p>
+      </div>
+    </section>
+    <div class="animated-bg"></div>
+    <div class="stars" id="stars"></div>
+    <div class="particles" id="particles"></div>
+    <script src="{% static 'accounts/script.js' %}"></script>
   </body>
 </html>
