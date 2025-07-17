@@ -11,8 +11,11 @@ def homeview(request):
     html = f"""
         <h2>Welcome back, {request.user.username}!</h2>
         <form action="{logout_url}" method="POST" style="display:inline;">
-            <input type="hidden" name="csrfmiddlewaretoken" value="{csrf_token}">
-            <button 
+            <input type="hidden" name="csrfmiddlewaretoken" value="{csrf_token}">"""
+    if not request.user.email_confirmed: 
+            html+="<p> Verify your email</p>"
+            
+    html+=f"""<button 
                 type="submit" 
                 style="
                     padding:8px 16px; 
