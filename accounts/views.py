@@ -27,17 +27,17 @@ class Signup(FormView):
         if user is not None:
             user.backend = 'django.contrib.auth.backends.ModelBackend'  # Specify the backend
             if user is not None:
-               login(self.request, user)
-               user.email_confirmed = False
-               user.save()
-               token = default_token_generator.make_token(user)
-               uid = urlsafe_base64_encode(force_bytes(user.id))
-               url = f'http://{get_current_site(self.request).domain}/accounts/email_confirmtion/{uid}/{token}'
-               subject = "You've been Sign up to lofy"
-               message = f"Hey {user.username}, welcome to your universe on LoFy!,\n verfaiy its you\n {url} "
-               from_email = EMAIL_HOST_USER
-               recipient_list = [user.email]
-               send_mail(subject, message, from_email, recipient_list, fail_silently=True)
+                login(self.request, user)
+                user.email_confirmed = False
+                user.save()
+                token = default_token_generator.make_token(user)
+                uid = urlsafe_base64_encode(force_bytes(user.id))
+                url = f'http://{get_current_site(self.request).domain}/accounts/email_confirmtion/{uid}/{token}'
+                subject = "You've been Sign up to lofy"
+                message = f"Hey {user.username}, welcome to your universe on LoFy!,\n verfaiy its you\n {url} "
+                from_email = EMAIL_HOST_USER
+                recipient_list = [user.email]
+                send_mail(subject, message, from_email, recipient_list, fail_silently=True)
         return super(Signup, self).form_valid(form)
 
     def get(self, request, *args, **kwargs):
