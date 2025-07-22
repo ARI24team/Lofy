@@ -72,8 +72,8 @@ class PasswordReset(PasswordResetView):
     template_name="accounts/password_reset.html"
     from_email=EMAIL_HOST_USER
     success_url=reverse_lazy('accounts:password_reset_done')
-    email_template_name='accounts/password_reset_email.txt'
-    #html_email_template_name='accounts/password_reset_email.html'
+    email_template_name='accounts/password_reset_email.html'
+    html_email_template_name='accounts/password_reset_email.html'
 
 class PasswordResetDone(PasswordResetDoneView):
     template_name='accounts/password_reset_done.html'
