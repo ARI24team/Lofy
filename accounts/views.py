@@ -69,16 +69,17 @@ class PasswordChange(PasswordChangeView):
 
 class PasswordReset(PasswordResetView):
     form_class=PasswordResetForm
-    template_name='accounts/password_reset.html'
+    template_name="accounts/password_reset.html"
     from_email=EMAIL_HOST_USER
     success_url=reverse_lazy('accounts:password_reset_done')
+    email_template_name='accounts/password_reset_email.html'
     html_email_template_name='accounts/password_reset_email.html'
 
 class PasswordResetDone(PasswordResetDoneView):
     template_name='accounts/password_reset_done.html'
 
 class PasswordResetConfirm(PasswordResetConfirmView):
-    template_name = 'accounts/password_reset_confirm.html'
+    template_name = "accounts/password_reset_confirm.html"
     success_url = reverse_lazy('accounts:password_reset_complete')
 
 class PasswordResetComplete(PasswordResetCompleteView):
