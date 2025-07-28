@@ -21,3 +21,100 @@ from accounts.models import User
 # related_name     : Name to access reverse relation (e.g., user.todos.all())
 # on_delete        : Behavior for FK when related object is deleted (CASCADE, SET_NULL, etc.)
 # choices          : Tuple list of allowed values: [(value, display), ...]
+
+
+# ─────────────────────────────────────────────────────────────
+# 📘 Django Model Fields Cheat Sheet
+# Drop this at the top of your models.py for quick reference
+# ─────────────────────────────────────────────────────────────
+
+
+# ─── FIELD TYPES ─────────────────────────────────────────────
+
+# CharField(max_length=N)                 # Short text, must set max_length
+# TextField()                             # Long text (no max_length needed)
+# IntegerField()                          # Whole numbers (also: PositiveIntegerField, BigIntegerField, SmallIntegerField)
+# FloatField()                            # Decimal numbers (less precise than DecimalField)
+# DecimalField(max_digits, decimal_places)  # Precise decimals (e.g. for prices)
+
+# BooleanField()                          # True / False
+# NullBooleanField()                      # True / False / None (deprecated, use BooleanField(null=True))
+
+# DateField()                             # Date only (yyyy-mm-dd)
+# TimeField()                             # Time only (hh:mm[:ss])
+# DateTimeField()                         # Date + time
+# DurationField()                         # Time delta (e.g. for measuring durations)
+
+# EmailField()                            # Validates email format
+# URLField()                              # Validates URL format
+# SlugField()                             # Short labels for URLs (like blog titles)
+# FileField(upload_to='path/')            # File uploads
+# ImageField(upload_to='path/')           # Requires Pillow
+
+# UUIDField()                             # Universally Unique ID
+# JSONField()                             # Stores structured data as JSON
+
+# ─── RELATIONSHIP FIELDS ────────────────
+
+# ForeignKey(OtherModel, on_delete=models.CASCADE)
+# ManyToManyField(OtherModel)
+# OneToOneField(OtherModel, on_delete=models.CASCADE)
+
+# on_delete options:
+#   - CASCADE: delete related objects too
+#   - PROTECT: raise error if referenced
+#   - SET_NULL: set to NULL if related object deleted (requires null=True)
+#   - SET_DEFAULT: set to default value
+#   - DO_NOTHING: leave as-is (can cause integrity errors)
+
+# ─────────────────────────────────────────────────────────────
+# 🧠 Pro Tips:
+# - Use auto_now_add for creation timestamps, auto_now for updates
+# - Use related_name to avoid clashes and improve readability in reverse lookups
+# - Choices = [('draft', 'Draft'), ('pub', 'Published')], etc.
+# - Keep phone numbers and such as CharField (clean & format in logic)
+
+# 🚀 Ready to code like a pro! Now back to work, king.
+# ─────────────────────────────────────────────────────────────
+
+VISIBILITY_CHOICES = [
+    ('PUBLIC', 'Everyone'),
+    ('FRIENDS', 'Only friends'),
+    ('PRIVATE', 'Only me')
+]
+
+
+POST_TYPE = [
+    ('TEXT', 'Text'),
+    ('IMAGE', 'Image'),
+    ('CAROUSEL', 'carousel'),
+    ('REEL', 'Reel'),
+    ('VIDEO', 'Video')
+]
+class Post(models.Model):
+        #Generel post info
+    publisher = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
+    caption = models.TextField(null=True, blank=True)
+    media = models.FileField(upload_to='post_media/', null=True, blank=True)
+    song = models.CharField(max_length=255, blank=True, null=True)
+    location = models.CharField(max_length=255, blank=True, null=True)
+    post_type = models.CharField(max_length=15, choices=POST_TYPE, default='TEXT')
+
+        #User interaction
+    likes_count = models.PositiveIntegerField(default=0)
+    comments_count = models.PositiveIntegerField(default=0)
+    shares_count = models.PositiveIntegerField(default=0)
+    saves_count = models.PositiveIntegerField(default=0)
+
+        # Meta and controle
+    tagged_users = models.ManyToManyField(User, related_name='posts_taged_in', blank=True)
+    visibility = models.CharField(max_length=10, choices=VISIBILITY_CHOICES, default='PUBLIC')
+    is_archived = models.BooleanField(default=False)
+    is_reported = models.BooleanField(default=False)
+
+        # Timestamps
+    date_published = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return f"{self.publisher.username}'s post at {self.date_published}"
