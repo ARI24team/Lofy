@@ -1,6 +1,5 @@
 from django.db import models
 from accounts.models import User
-
 # ─── Django Field Common Arguments Cheat Sheet ───
 #
 # max_length       : Max allowed characters (required for CharField, etc.)
@@ -118,3 +117,38 @@ class Post(models.Model):
 
     def __str__(self):
         return f"{self.publisher.username}'s post at {self.date_published}"
+    
+THEME_CHOICES = [
+        ("dark","Dark"),
+        ("light","Light")
+    ]
+ACCOUNT_PRIVACY_CHOICES = [
+        ("public","Public"),
+        ("private","Private")
+    ]
+class Profile(models.Model):
+    # Basic Profile Information
+    owner = models.OneToOneField(to=User,on_delete=models.CASCADE, related_name='profile')
+    profile_picture=models.ImageField(upload_to="profile_pictures/",blank=True,default="profile_pictures/blank-profile-picture.webp")
+    Join_Date = models.DateTimeField(auto_now=True)
+    bio = models.TextField(max_length=300,blank=True)
+    Display_Name = models.CharField(max_length=30)
+    Birthday = models.DateField(blank=True,null=True)
+    Location = models.CharField(max_length=100,blank=True)
+    # Social
+    Friends = models.ManyToManyField(User, related_name='friends', blank=True)
+    Following=models.ManyToManyField(User, related_name='following', blank=True)
+    Followers=models.ManyToManyField(User, related_name='followers', blank=True)
+    # Social Information
+    Number_of_Following = models.PositiveIntegerField(default=0)
+    Number_of_Followers =models.PositiveIntegerField(default=0)
+    Number_of_posts = models.PositiveIntegerField(default=0)
+    Number_of_likes = models.PositiveIntegerField(default=0)
+    # Settings & Preferences
+    Account_Privacy=models.CharField(choices=ACCOUNT_PRIVACY_CHOICES,default='public')
+    Theme=models.CharField(choices=THEME_CHOICES,default='light')
+    Show_Friends=models.BooleanField(default=True)
+    #Others
+    Verified_Badge=models.BooleanField(default=False)
+    def __str__(self):
+        return f"Profile of {self.owner}"
