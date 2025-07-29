@@ -83,7 +83,6 @@ VISIBILITY_CHOICES = [
     ('PRIVATE', 'Only me')
 ]
 
-
 POST_TYPE = [
     ('TEXT', 'Text'),
     ('IMAGE', 'Image'),
@@ -118,3 +117,40 @@ class Post(models.Model):
 
     def __str__(self):
         return f"{self.publisher.username}'s post at {self.date_published}"
+    
+
+class Comment(models.Model):
+    # The user who wrote the comment
+    publisher = models.ForeignKey(User, on_delete=models.CASCADE, related_name='comments')
+    
+    # The post this comment belongs to
+    post = models.ForeignKey(Post, on_delete=models.CASCADE, related_name='comments')
+
+    # The actual text content of the comment
+    content = models.TextField()
+
+    # Parent comment if this is a reply; null if it's a top-level comment
+    # Replies can be accessed using `comment.replies.all()`
+    parent = models.ForeignKey(
+        'self',
+        blank=True,
+        null=True,
+        on_delete=models.CASCADE,
+        related_name='replies'
+    )
+
+    # Total number of likes this comment has received
+    likes_count = models.PositiveSmallIntegerField(default=0)
+
+    # Total number of replies to this comment
+    replies_count = models.PositiveSmallIntegerField(default=0)
+
+    # Indicates whether the comment was edited after publishing
+    edited = models.BooleanField(default=False)
+
+    # Timestamp for when the comment was created
+    date_published = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.publisher.username}: {self.content[:30]}"
+
