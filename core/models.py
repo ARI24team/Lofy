@@ -93,6 +93,7 @@ POST_TYPE = [
 class Post(models.Model):
         #Generel post info
     publisher = models.ForeignKey(User, on_delete=models.CASCADE, related_name='posts')
+    title = models.CharField(max_length=100, null=True, blank=True)
     caption = models.TextField(null=True, blank=True)
     media = models.FileField(upload_to='post_media/', null=True, blank=True)
     song = models.CharField(max_length=255, blank=True, null=True)
