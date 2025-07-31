@@ -365,7 +365,7 @@ class PostForm(forms.ModelForm):
                 'cols': "50",
                 'placeholder': 'Enter the caption',
             }),
-            'media': forms.forms.ClearableFileInput(),
+            'media': forms.ClearableFileInput(),
             'visibility': forms.Select()
         }
 
