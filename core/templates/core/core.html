@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>Home</title>
+        <style>
+            button.logout-btn {
+                padding: 8px 16px;
+                background-color: #f44336;
+                color: white;
+                border: none;
+                border-radius: 4px;
+                font-family: sans-serif;
+                font-size: 14px;
+                cursor: pointer;
+            }
+
+            button.logout-btn:hover {
+                background-color: #d32f2f;
+            }
+        </style>
+    </head>
+
+    <body>
+        <h2>Welcome back, {{ request.user.username }}!</h2>
+
+        {% if not request.user.email_confirmed %}
+            <p>Verify your email</p>
+        {% endif %}
+        <a href="{% url 'core:postcreation' %}">create post</a>
+
+        {% for post in posts %}
+            <p>{{ post.title }}</p>
+        {% endfor %}
+        <form action="{% url 'accounts:logout' %}" method="POST" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="logout-btn">Logout</button>
+        </form>
+    </body>
+</html>

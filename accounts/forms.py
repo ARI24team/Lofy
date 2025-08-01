@@ -13,19 +13,21 @@ class Usersignupform(UserCreationForm):
             'password1', 
             'password2'
             ]
+        
+        widgets = {
+            'email': forms.TextInput(attrs={'placeholder': 'Youremail@example.com'})
+        }
 
     def __init__(self, *args, **kwargs):
         super(Usersignupform, self).__init__(*args, **kwargs)
+        for field in self.fields.values():
+            field.help_text = ''
         self.fields['username'].widget.attrs.update({
             'placeholder': 'Enter Username',
             'class': 'form-control'
         })
         self.fields['Phone_Number'].widget.attrs.update({
             'placeholder': 'Phone Number',
-            'class': 'form-control',
-        })
-        self.fields['email'].widget.attrs.update({
-            'placeholder': 'Enter Your Email',
             'class': 'form-control',
         })
         self.fields['password1'].widget.attrs.update({
@@ -49,3 +51,5 @@ class Userloginform(AuthenticationForm):
             'placeholder': 'Password',
             'class': 'form-control'
         })
+        for field in self.fields.values():
+            field.help_text = ''

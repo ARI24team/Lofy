@@ -75,11 +75,13 @@ WSGI_APPLICATION = 'lofy.wsgi.application'
 AUTH_USER_MODEL = 'accounts.User'
 
 # Database
-import dj_database_url
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': dj_database_url.config(default=os.getenv('DATABASE_URL'))
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / "db.sqlite3",
+    }
 }
 
 
@@ -149,4 +151,5 @@ EMAIL_USE_SSL= False
 EMAIL_HOST_USER = os.getenv('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = os.getenv('EMAIL_HOST_PASSWORD')
 
+MEDIA_URL ='/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
